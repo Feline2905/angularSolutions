@@ -21,7 +21,7 @@ $scope.lunchEnterd = function () {
    else
    {
      var lunch = $scope.lunchName.split(",");
-     if (lunch.lenth == 0)
+     if (lunch == "")
      {
        $scope.message = "Please enter data first";
      }
