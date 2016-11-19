@@ -11,14 +11,25 @@ angular.module('ShoppingListCheckOff', [])
 ToBuyController.$inject = ['ShoppingListCheckOffService'];
 function ToBuyController(ShoppingListCheckOffService) {
   var itemsToBuy = this;
-  itemsToBuy.items = ShoppingListCheckOffService.getItemsToBuy();
-  console.log(itemsToBuy.items);
-}
 
+  itemsToBuy.items = ShoppingListCheckOffService.getItemsToBuy();
+  itemsToBuy.nothing = true;
+
+  itemsToBuy.removeItem = function (itemIndex, itemName, itemQuantity) {
+    ShoppingListCheckOffService.addBoughtItem(itemName, itemQuantity);
+    ShoppingListCheckOffService.removeItem(itemIndex);
+    itemsToBuy.empty = ShoppingListCheckOffService.getItemsEmpty();
+    itemsToBuy.nothing = ShoppingListCheckOffService.getItemsBougthEmpty();
+};
+
+}
 
 AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
 function AlreadyBoughtController(ShoppingListCheckOffService) {
-  var itemsAlreadyBought = this;
+  var itemsBought = this;
+  itemsBought.items = ShoppingListCheckOffService.getItemsBought();
+  //itemsBought.nothing = ShoppingListCheckOffService.getItemsBougthEmpty();
+
 }
 
 function ShoppingListCheckOffService() {
@@ -49,16 +60,45 @@ function ShoppingListCheckOffService() {
       name: itemName,
       quantity: quantity
     };
-    items.push(item);
+    itemsAlreadyBought.push(item);
+    console.log(itemsAlreadyBought);
   };
 
+
   service.removeItem = function (itemIdex) {
-    items.splice(itemIdex, 1);
+    itemsToBuyList.splice(itemIdex, 1);
   };
 
   service.getItemsToBuy = function () {
     return itemsToBuyList;
   };
+
+  service.getItemsBought = function () {
+    return itemsAlreadyBought;
+  };
+
+   service.getItemsEmpty = function() {
+     if (itemsToBuyList.length == 0)
+     {
+       return true;
+     }
+     else
+    {
+      return false;
+    }
+   }
+
+   service.getItemsBougthEmpty = function() {
+     if (itemsAlreadyBought.length == 0)
+     {
+       return true;
+     }
+     else
+    {
+      return false;
+    }
+   }
+
 }
 
 
