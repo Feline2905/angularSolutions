@@ -1,0 +1,11 @@
+
+<div ng-if="menu.nothing">Nothing found</div>
+<h3>Found Items</h3>
+<ul>
+  <li ng-repeat="item in menu.items">
+    {{ item.short_name }} : {{ item.description }}
+
+    <button ng-click="menu.onRemove($index);">Don't want this!</button>
+
+  </li>
+</ul>
